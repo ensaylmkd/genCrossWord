@@ -7,28 +7,31 @@
 # idée : creer un seul noeud fin de mot pour que chaque fin de mot pointe sur lui 
 
 class LetterNode:
-    def __init__(self,letter='\0'):
+    def __init__(self, letter='\0'):
         self.letter : str = letter
-        self.nextLetters : dict[str:LetterNode] = {}
-        self.nbPossibleWords : int = 0
+        self.childLetters : dict[str:LetterNode] = {}
+        self.len2nbWords : dict[int:int] = -1
 
-    def searchNext(self,letter):
-        return self.nextLetters.get(letter)
+    def searchChild(self,letter):
+        return self.childLetters.get(letter)
+    
+    def addChildLetter(self,letter:str):
+        if not (self.searchNext(letter)):
+            self.childLetters[letter] = LetterNode(letter)
 
     def _countNbWords(self):
-        nb = 0
+        l2nb = {}
         if self.letter == "\0":
-            nb = 1
+            l2nb = { -1:1 }
         else:
-            for key in self.nextLetters.keys():
-                nb += self.nextLetters.get(key).get_nbPossibleWords()
-        return nb
+            for letter in self.childLetters.keys():
+                cNode : LetterNode = self.childLetters.get(letter)
+                for key in cNode.len2nbWords.keys():
+                    l2nb[key+1] += cNode.len2nbWords.get(key) 
+        return l2nb
 
-    def get_nbPossibleWords(self):
-        if self.nbPossibleWords == 0:
+    def get_l2nbWords(self):
+        if self.nbPossibleWords == {}:
             self.nbPossibleWords = self._countNbWords()
         return self.nbPossibleWords
-    
-    def addNextLetter(self,letter:str):
-        if not (self.searchNext(letter)):
-            self.nextLetters[letter] = LetterNode(letter)
+
