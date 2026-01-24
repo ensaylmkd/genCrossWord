@@ -115,54 +115,59 @@ def getStatNiemeLetter(words,n) -> dict : # structure de donné à revoir dans l
 
 ##### init ######
 
-N = 4
-grid = [['' for _ in range(N)] for _ in range(N)]
-columnWordsData = [word_database for _ in range(N)]
-statWord = [{} for _ in range(N)]
-LINE = 0 ## juste pour voir visuelement avt de faire une boucle 
+def test():
 
-new_grid = writeIn(grid,"Test") # init avec un mot au hasard
-LINE+=1
+    N = 4
+    grid = [['' for _ in range(N)] for _ in range(N)]
+    columnWordsData = [word_database for _ in range(N)]
+    statWord = [{} for _ in range(N)]
+    LINE = 0 ## juste pour voir visuelement avt de faire une boucle 
 
-#### début algo ########
-#### ligne 1 ####
-for i in range(len(new_grid)): # pour chaque colonne
-    Data = columnWordsData[i]
-    newData = selectWordsWho(Data,getColumnWord(new_grid,i),N) # on recupere la liste de mot possible
-    columnWordsData[i] = newData
-    
-    statWord[i] = getStatNiemeLetter(newData,1) # puis on regarde les stat de la 2eme lettre 
-    print(f"Column {i} proba (letter,count): {statWord[i]}")  
+    new_grid = writeIn(grid,"Test") # init avec un mot au hasard
+    LINE+=1
 
-#ensuite avec les stats on build un mot , pour ça:
-# etape 1(findwords) faut recup tout les mot possible avec les lettre qu'on a 
-# etape 2 (à faire) on choisi le mot qui a le meilleur score , on calcule le score d'un mot avec le count dans statWord, 
-# on additione les points des lettres pour avoir le score du mot
+    #### début algo ########
+    #### ligne 1 ####
+    for i in range(len(new_grid)): # pour chaque colonne
+        Data = columnWordsData[i]
+        newData = selectWordsWho(Data,getColumnWord(new_grid,i),N) # on recupere la liste de mot possible
+        columnWordsData[i] = newData
+        
+        statWord[i] = getStatNiemeLetter(newData,1) # puis on regarde les stat de la 2eme lettre 
+        print(f"Column {i} proba (letter,count): {statWord[i]}")  
 
-# def findword(T,start="",i=0):
-#     T = list(T)
-#     words=[]
-#     if start in word_database:
-#         words.append(start)
-#     if len(T):
-#         letters=T.pop()
-#         for letter in letters:
-#             words += findword(T,start+letter,i+1)
-#     return words
+    #ensuite avec les stats on build un mot , pour ça:
+    # etape 1(findwords) faut recup tout les mot possible avec les lettre qu'on a 
+    # etape 2 (à faire) on choisi le mot qui a le meilleur score , on calcule le score d'un mot avec le count dans statWord, 
+    # on additione les points des lettres pour avoir le score du mot
 
-def findword2(T):
-    T = list(T)
-    words=[]
-    for i in columnStat:
-        columnStat = statWord[i]
+    # def findword(T,start="",i=0):
+    #     T = list(T)
+    #     words=[]
+    #     if start in word_database:
+    #         words.append(start)
+    #     if len(T):
+    #         letters=T.pop()
+    #         for letter in letters:
+    #             words += findword(T,start+letter,i+1)
+    #     return words
+
+    def findword2(T):
+        T = list(T)
+        words=[]
+        for i in columnStat:
+            columnStat = statWord[i]
 
 
-    #test= [[x[0] for x in L ]for L in statWord]
-    # print(findword2(test)) # faut opti bcp -- j'ai déja une strat dans ma tête 
+        #test= [[x[0] for x in L ]for L in statWord]
+        # print(findword2(test)) # faut opti bcp -- j'ai déja une strat dans ma tête 
 
-# je ne sais pas encore comment gerer les cases vides, 
-# pour l'instant je me dis on en place un quand il n'y aura pas de mot possible dans findwords , mais ou placer la case vide ?
-# je penses à la colonne qui a le moins de mot possible 
+    # je ne sais pas encore comment gerer les cases vides, 
+    # pour l'instant je me dis on en place un quand il n'y aura pas de mot possible dans findwords , mais ou placer la case vide ?
+    # je penses à la colonne qui a le moins de mot possible 
 
 if __name__ == "__main__":
-    print("\0" == "" )
+    a= {"1":5,"b": 18,"c":3,"d": 10 }
+    a[2]= 3 
+    print(a)
+  
