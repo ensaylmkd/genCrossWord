@@ -10,13 +10,13 @@ class LetterNode:
     def __init__(self, letter='\0'):
         self.letter : str = letter
         self.childLetters : dict[str:LetterNode] = {}
-        self.len2nbWords : dict[int:int] = -1
+        self.len2nbWords : dict[int:int] = {}
 
     def searchChild(self,letter):
-        return self.childLetters.get(letter)
+        return self.childLetters.get(letter,None)
     
     def addChildLetter(self,letter:str):
-        if not (self.searchNext(letter)):
+        if not (self.searchChild(letter)):
             self.childLetters[letter] = LetterNode(letter)
 
     def _countNbWords(self):
@@ -26,12 +26,12 @@ class LetterNode:
         else:
             for letter in self.childLetters.keys():
                 cNode : LetterNode = self.childLetters.get(letter)
-                for key in cNode.len2nbWords.keys():
-                    l2nb[key+1] += cNode.len2nbWords.get(key) 
-        return l2nb
+                for key in cNode.get_l2nbWords().keys():
+                    l2nb[key+1] = l2nb.get(key+1,0) + cNode.len2nbWords.get(key,0)
+        return dict(sorted(l2nb.items(), key=lambda x: x[1], reverse=True))
 
     def get_l2nbWords(self):
-        if self.nbPossibleWords == {}:
-            self.nbPossibleWords = self._countNbWords()
-        return self.nbPossibleWords
+        if self.len2nbWords == {}:
+            self.len2nbWords = self._countNbWords()
+        return self.len2nbWords
 
