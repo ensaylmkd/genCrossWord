@@ -1,4 +1,5 @@
 from LetterNode import LetterNode
+import random 
 
 class DicoPrefixeTree:
     
@@ -23,10 +24,11 @@ class DicoPrefixeTree:
     
     def insert(self, word: str) -> None:
         node = self.racine
-        for letter in word.upper():
-            node.addChildLetter(letter)
-            node = node.searchChild(letter)
-        node.addChildLetter('\0')
+        w=word.upper()
+        for i  in range(len(w)):
+            node.addChildLetter(w[i],i+1)
+            node = node.searchChild(w[i])
+        node.addChildLetter('\0',len(w))
     
     def is_word(self, word: str) -> bool:
         node = self.racine
@@ -44,7 +46,7 @@ class DicoPrefixeTree:
                 return False
         return True
     
-    def l2nb_stat_with_prefixe(self, prefixe: str):
+    def l2nb_prefixe(self, prefixe: str):
         if not self.is_prefixe(prefixe.upper()):
             return None
         node = self.racine
@@ -53,3 +55,23 @@ class DicoPrefixeTree:
         data = node.get_l2nbWords()
         return data
     
+    def stat_prefixe(self, prefixe: str,n: int): # regarder stat, fonction a rename 
+        if not self.is_prefixe(prefixe.upper()):
+            return {}
+        node = self.racine
+        for letter in prefixe.upper():
+            node = node.searchChild(letter)
+        
+        data = node.stat(n)
+        return data
+    
+    def random_word(self,n):
+        node = self.racine
+        word=""
+        for _ in range(n):
+            if not list(self.stat_prefixe(word,n).keys()):
+                return word
+            letter = random.choice(list(self.stat_prefixe(word,n).keys()))
+            word+=letter
+            node = node.searchChild(letter)
+        return word
