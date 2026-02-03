@@ -1,11 +1,7 @@
-"""
-testMain.py
-Test file for DicoPrefixeTree class
-Tests insertion, word search, prefix search, and file loading functionality
-"""
-
 from DicoPrefixeTree import DicoPrefixeTree
+from time import time
 
+from CrossWord import *
 
 def test_basic_insertion_and_search():
     """Test basic word insertion and word search"""
@@ -176,12 +172,42 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    print("\n")
-    tree = DicoPrefixeTree()
+    t1 = time()
+    try:
+        tree = DicoPrefixeTree("genCrossWord/Fr_Simple.txt")        
+    except Exception as e:
+        print(f"✗ Error loading file: {e}")
     
-    words = ["hello", "help", "helper", "world", "word", "work", "abc", "ab"]
-    for word in words:
-        tree.insert(word)
-    print(tree.l2nb_stat_with_prefixe("h"))
+    t2 = time()
+    
+    print(tree.l2nb_prefixe("h"))
+    
+    t3 = time()
 
+    print(sorted(tree.l2nb_prefixe("ha").items(), key=lambda x: x[0]))
+
+    t4 = time()
+    grille= Grille(6,"genCrossWord/Fr_Simple.txt")
+    grille.afficher()
+    grille.generate()
+    grille.afficher()
+
+    # word1="Iras"
+    # print(tree.is_word(word1),end="\n \n")
+    # print(word1+" " ,sorted(tree.stat_prefixe(word1,4).items(),key=lambda x: x[1], reverse=True),end="\n \n")
+    # word2="roue"
+    # print(word2+" ",sorted(tree.stat_prefixe(word2,5).items(),key=lambda x: x[1], reverse=True),end="\n \n")
+    # word3="r"
+    # print(word3+" ",sorted(tree.stat_prefixe(word3,2).items(),key=lambda x: x[1], reverse=True),end="\n \n")
+    # word4="reve"
+    # print(word4+" ",sorted(tree.stat_prefixe(word4,5).items(),key=lambda x: x[1], reverse=True),end="\n \n")
+    # word4="erse"
+    # print(word4+" ",sorted(tree.stat_prefixe(word4,5).items(),key=lambda x: x[1], reverse=True),end="\n \n")
+
+    total_t= time() - t1
+    load_t= t2-t1
+    searchTotal_t= total_t - load_t
+    firstSearch_t = t3 - t2
+    secondSearch_t = t4 - t3
+
+    print(f"total_time: {total_t} \n loading_time: {load_t}\n search_time: {searchTotal_t}\n  first: {firstSearch_t}\n  second:{secondSearch_t} ")
