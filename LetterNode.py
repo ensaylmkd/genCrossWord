@@ -56,4 +56,6 @@ class LetterNode:
         for c in self.childLetters.keys():
             if self.childLetters[c].get_nbWordOfLen(n) and c != "\0" : 
                 res[c]= self.childLetters[c].get_nbWordOfLen(n)
+            elif c == "\0":
+                res["."]= self.childLetters[c].get_nbWordOfLen(n) # le "." doit etre une constante CASENOIR
         return res

@@ -174,7 +174,7 @@ def main():
 if __name__ == "__main__":
     t1 = time()
     try:
-        tree = DicoPrefixeTree("genCrossWord/Fr_Simple.txt")        
+        tree = DicoPrefixeTree("Fr_Simple.txt")        
     except Exception as e:
         print(f"✗ Error loading file: {e}")
     
@@ -187,10 +187,12 @@ if __name__ == "__main__":
     print(sorted(tree.l2nb_prefixe("ha").items(), key=lambda x: x[0]))
 
     t4 = time()
-    grille= Grille(6,"genCrossWord/Fr_Simple.txt")
+    grille= Grille(8,"Fr_Simple.txt")
     grille.afficher()
     grille.generate()
+    print("Final Grille:")
     grille.afficher()
+    print("Read line 2:", grille.readLine(2))
 
     # word1="Iras"
     # print(tree.is_word(word1),end="\n \n")

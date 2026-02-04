@@ -65,6 +65,17 @@ class DicoPrefixeTree:
         data = node.stat(n)
         return data
     
+    def nb_words(self,prefixe: str = "",n: int = float('inf')):
+        if not self.is_prefixe(prefixe.upper()):
+            return 0
+        node = self.racine
+        for letter in prefixe.upper():
+            node = node.searchChild(letter)
+        res = 0
+        for i in range(n+1):
+            res += node.get_nbWordOfLen(i)
+        return res
+        
     def random_word(self,n):
         node = self.racine
         word=""
